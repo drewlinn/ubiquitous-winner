@@ -101,6 +101,8 @@ namespace Restaurants
 
       SqlParameter nameParam = new SqlParameter("@cuisineName", this.GetName());
       SqlParameter menuParam = new SqlParameter("@CuisineMenu", this.GetMenu());
+      cmd.Parameters.Add(nameParam);
+      cmd.Parameters.Add(menuParam);
       SqlDataReader rdr = cmd.ExecuteReader();
 
       while(rdr.Read())
