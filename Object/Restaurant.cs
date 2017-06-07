@@ -11,7 +11,7 @@ namespace Restaurants
     private string _style;
     private int _cuisine_id;
 
-    public class Restaurant(string name, string style, int cuisine_id, int id = 0)
+    public Restaurant(string name, string style, int cuisine_id, int id = 0)
     {
       _name = name;
       _style = style;
@@ -39,33 +39,76 @@ namespace Restaurants
     {
       return _id;
     }
-    public void SetId(int id)
-    {
-      _id = id;
-    }
+    // public void SetId(int id)
+    // {
+    //   _id = id;
+    // }
     public string GetName()
     {
       return _name;
     }
-    public void SetName(string name)
-    {
-      _name = name;
-    }
+    // public void SetName(string name)
+    // {
+    //   _name = name;
+    // }
     public string GetStyle()
     {
       return _style;
     }
-    public void SetStyle(string style)
-    {
-      _style = style;
-    }
+    // public void SetStyle(string style)
+    // {
+    //   _style = style;
+    // }
     public int GetCuisineId()
     {
       return _cuisine_id;
     }
-    public void SetCuisineId(int cuisine_id)
+    // public void SetCuisineId(int cuisine_id)
+    // {
+    //   _cuisine_id = cuisine_id;
+    // }
+
+    public static List<Restaurant> GetAll()
     {
-      _cuisine_id = cuisine_id;
+      List<Restaurant> AllRestaurants = new List<Restaurant>{};
+
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurant", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string style = rdr.GetString(2);
+        int cuisine_id = rdr.GetInt32(3);
+        Restaurant newRestaurant = new Restaurant(name, style, cuisine_id, id);
+        AllRestaurants.Add(newRestaurant);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return AllRestaurants;
     }
+    public static void DeleteAll()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM restaurant;", conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+    }
+
+    // public void Save()
+    // {
+    //
+    // }
   }
 }
