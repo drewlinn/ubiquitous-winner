@@ -23,6 +23,21 @@ namespace Restaurants
 
     }
 
+    [Fact]
+    public void Test_Save_SavesToDatabase()
+    {
+      //Arrange
+      Restaurant testRestaurant = new Restaurant("Shoney", "American", 1);
+
+      //Act
+      testRestaurant.Save();
+      List<Restaurant> result = Restaurant.GetAll();
+      List<Restaurant> testList = new List<Restaurant>{testRestaurant};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();

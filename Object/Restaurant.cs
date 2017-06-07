@@ -106,9 +106,43 @@ namespace Restaurants
       conn.Close();
     }
 
-    // public void Save()
-    // {
-    //
-    // }
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO restaurant (name, style, cuisine_id) OUTPUT INSERTED.id VALUES (@name, @style, @cuisine_id);", conn);
+
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@name";
+      nameParameter.Value = this.GetName();
+
+      SqlParameter styleParameter = new SqlParameter();
+      styleParameter.ParameterName = "@style";
+      styleParameter.Value = this.GetStyle();
+
+      SqlParameter cuisine_idParameter = new SqlParameter();
+      cuisine_idParameter.ParameterName = "@cuisine_id";
+      cuisine_idParameter.Value = this.GetCuisineId();
+
+      cmd.Parameters.Add(nameParameter);
+      cmd.Parameters.Add(styleParameter);
+      cmd.Parameters.Add(cuisine_idParameter);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }    
+    }
   }
 }
