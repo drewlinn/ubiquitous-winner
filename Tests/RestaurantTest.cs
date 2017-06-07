@@ -53,10 +53,10 @@ namespace Restaurants
 
     }
 
-
     public void Dispose()
     {
       Restaurant.DeleteAll();
+      
     }
   }
 }

@@ -40,7 +40,7 @@ namespace Restaurants
     {
       return this.GetName().GetHashCode();
     }
-    
+
     public int GetId()
     {
       return _id;
@@ -147,6 +147,7 @@ namespace Restaurants
 
     public static Restaurant Find(int id)
     {
+      Console.WriteLine(id + " from Find Restaurant Line 150");
       SqlConnection conn = DB.Connection();
       conn.Open();
 
@@ -168,6 +169,7 @@ namespace Restaurants
         cuisine_id = rdr.GetInt32(3);
       }
       Restaurant foundRestaurant = new Restaurant(name, style, cuisine_id, foundId);
+      Console.WriteLine(foundRestaurant.GetName() + " From Find Res Line 172");
       if (rdr != null)
       {
         rdr.Close();

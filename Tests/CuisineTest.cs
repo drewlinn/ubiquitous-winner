@@ -43,7 +43,6 @@ namespace Restaurants
     {
       //Arrange
       Cuisine testCuisine = new Cuisine("Italian", "Pizza");
-      // Console.WriteLine(testCuisine.GetName() + " Cuisine test");
       testCuisine.Save();
       //Act
       Cuisine foundCuisine = Cuisine.Find(testCuisine.GetId());
@@ -51,9 +50,31 @@ namespace Restaurants
       Assert.Equal(testCuisine, foundCuisine);
     }
 
+    [Fact]
+    public void Test_GetRestaurants_RetrieveAllRestaurantsWithinCuisine()
+    {
+      //Arrange
+      Cuisine testCuisine = new Cuisine("Italian", "pizza");
+      testCuisine.Save();
+
+      Restaurant firstRestaurant = new Restaurant("Shoney's", "American", testCuisine.GetId());
+      firstRestaurant.Save();
+      Restaurant secondRestaurant = new Restaurant("Luis's", "Italian", testCuisine.GetId());
+      secondRestaurant.Save();
+
+      //Act
+      List<Restaurant> testRestaurantList = new List<Restaurant>{firstRestaurant, secondRestaurant};
+      List<Restaurant> resultRestaurantList = testCuisine.GetRestaurants();
+
+      //Assert
+      Assert.Equal(testRestaurantList, resultRestaurantList);
+
+
+    }
+
     public void Dispose()
     {
-      Restaurant.DeleteAll();
+      
       Cuisine.DeleteAll();
     }
 

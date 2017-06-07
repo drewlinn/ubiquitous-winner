@@ -163,7 +163,7 @@ namespace Restaurants
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants WHERE cuisineId = @CuisineId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurant WHERE cuisine_id = @CuisineId;", conn);
       SqlParameter cuisineIdParam = new SqlParameter("@CuisineId", this.GetId());
       cmd.Parameters.Add(cuisineIdParam);
       SqlDataReader rdr = cmd.ExecuteReader();
