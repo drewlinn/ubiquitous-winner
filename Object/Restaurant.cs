@@ -113,21 +113,15 @@ namespace Restaurants
 
       SqlCommand cmd = new SqlCommand("INSERT INTO restaurant (name, style, cuisine_id) OUTPUT INSERTED.id VALUES (@name, @style, @cuisine_id);", conn);
 
-      SqlParameter nameParameter = new SqlParameter();
-      nameParameter.ParameterName = "@name";
-      nameParameter.Value = this.GetName();
+      SqlParameter nameParam = new SqlParameter("@name", this.GetName());
 
-      SqlParameter styleParameter = new SqlParameter();
-      styleParameter.ParameterName = "@style";
-      styleParameter.Value = this.GetStyle();
+      SqlParameter styleParam = new SqlParameter("@style", this.GetStyle());
 
-      SqlParameter cuisine_idParameter = new SqlParameter();
-      cuisine_idParameter.ParameterName = "@cuisine_id";
-      cuisine_idParameter.Value = this.GetCuisineId();
+      SqlParameter cuisine_idParam = new SqlParameter("@cuisine_id", this.GetCuisineId());
 
-      cmd.Parameters.Add(nameParameter);
-      cmd.Parameters.Add(styleParameter);
-      cmd.Parameters.Add(cuisine_idParameter);
+      cmd.Parameters.Add(nameParam);
+      cmd.Parameters.Add(styleParam);
+      cmd.Parameters.Add(cuisine_idParam);
 
       SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -142,7 +136,41 @@ namespace Restaurants
       if (conn != null)
       {
         conn.Close();
-      }    
+      }
+    }
+
+    public static Restaurant Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurant WHERE id = @id;", conn);
+      SqlParameter idParameter = new SqlParameter("@id", id.ToString());
+
+      cmd.Parameters.Add(idParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundId = 0;
+      string name = null;
+      string style = null;
+      int cuisine_id = 0;
+      while(rdr.Read())
+      {
+        foundId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        style = rdr.GetString(2);
+        cuisine_id = rdr.GetInt32(3);
+      }
+      Restaurant foundRestaurant = new Restaurant(name, style, cuisine_id, foundId);
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundRestaurant;
     }
   }
 }
