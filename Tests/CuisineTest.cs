@@ -38,10 +38,24 @@ namespace Restaurants
       Assert.Equal(testList, result);
     }
 
+    [Fact]
+    public void Test_Find_FindsCuisineInDatabase()
+    {
+      //Arrange
+      Cuisine testCuisine = new Cuisine("Italian", "Pizza");
+      // Console.WriteLine(testCuisine.GetName() + " Cuisine test");
+      testCuisine.Save();
+      //Act
+      Cuisine foundCuisine = Cuisine.Find(testCuisine.GetId());
+      //Assert
+      Assert.Equal(testCuisine, foundCuisine);
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();
       Cuisine.DeleteAll();
     }
+
   }
 }

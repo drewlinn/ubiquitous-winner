@@ -54,6 +54,11 @@ namespace Restaurants
       }
     }
 
+    public override int GetHashCode()
+    {
+      return this.GetName().GetHashCode();
+    }
+
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
@@ -119,9 +124,71 @@ namespace Restaurants
       }
     }
 
-    // public static Cuisine Find(int id)
-    // {
-    //   return "string";
-    // }
+    public static Cuisine Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM cuisine WHERE id = @CuisineId;", conn);
+      SqlParameter cuisineIdParam = new SqlParameter("@CuisineId", id.ToString());
+      cmd.Parameters.Add(cuisineIdParam);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundCuisineId = 0;
+      string foundCuisineName = null;
+      string foundCuisineMenu = null;
+
+      while(rdr.Read())
+      {
+        foundCuisineId = rdr.GetInt32(0);
+        foundCuisineName = rdr.GetString(1);
+        foundCuisineMenu = rdr.GetString(2);
+        // Console.WriteLine(foundCuisineName + "whileloop");
+      }
+      Cuisine foundCuisine = new Cuisine(foundCuisineName, foundCuisineMenu, foundCuisineId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundCuisine;
+    }
+
+    public List<Restaurant> GetRestaurants()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants WHERE cuisineId = @CuisineId;", conn);
+      SqlParameter cuisineIdParam = new SqlParameter("@CuisineId", this.GetId());
+      cmd.Parameters.Add(cuisineIdParam);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      List<Restaurant> Restaurants = new List<Restaurant> {};
+      while(rdr.Read())
+      {
+        int restaurantId = rdr.GetInt32(0);
+        string restaurantName = rdr.GetString(1);
+        string restaurantStyle = rdr.GetString(2);
+        int restaurantCuisineId = rdr.GetInt32(3);
+        Restaurant newRestaurant = new Restaurant(restaurantName, restaurantStyle, restaurantCuisineId, restaurantId);
+        Restaurants.Add(newRestaurant);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return Restaurants;
+    }
+
+
   }
 }
