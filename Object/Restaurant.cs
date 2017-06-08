@@ -205,23 +205,23 @@ namespace Restaurants
         conn.Close();
       }
     }
-    // public void Delete()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("DELETE FROM cuisine WHERE id = @CuisineId; DELETE FROM restaurant WHERE cuisine_id = @CuisineId;", conn);
-    //
-    //   SqlParameter cuisineIdParam = new SqlParameter("@CuisineId", this.GetId());
-    //
-    //   cmd.Parameters.Add(cuisineIdParam);
-    //   cmd.ExecuteNonQuery();
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM restaurant WHERE id = @restaurantId;", conn);
+
+      SqlParameter restaurantIdParam = new SqlParameter("@restaurantId", this.GetId());
+
+      cmd.Parameters.Add(restaurantIdParam);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();

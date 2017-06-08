@@ -89,7 +89,7 @@ namespace Restaurants
     }
 
     [Fact]
-    public void Test_DeleteFromCuisines()
+    public void Test_Delete_DeleteCuisineFromDatabase()
     {
       //Arrange
       string name1 = "Gary";

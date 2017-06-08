@@ -72,6 +72,24 @@ namespace Restaurants
       Assert.Equal(newStyle, result);
     }
 
+    [Fact]
+    public void Test_Delete_DeleteRestaurantFromDatabase()
+    {
+      //Arrange
+      Restaurant testRestaurant1 = new Restaurant("Shoney's", "fastfood", 1);
+      testRestaurant1.Save();
+      Restaurant testRestaurant2 = new Restaurant("Luis's", "fastfood", 2);
+      testRestaurant2.Save();
+
+      //Act
+      testRestaurant1.Delete();
+      List<Restaurant> resultRestaurants = Restaurant.GetAll();
+      List<Restaurant> testRestaurant = new List<Restaurant> {testRestaurant2};
+      //Assert
+      Assert.Equal(resultRestaurants, testRestaurant);
+
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();
