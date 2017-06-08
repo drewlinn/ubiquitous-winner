@@ -83,6 +83,24 @@ namespace Restaurants
         SelectedRestaurant.Update(Request.Form["restaurant-name"], Request.Form["restaurant-style"]);
         return View["success.cshtml"];
       };
+      Get["cuisine/delete/{id}"] = parameters => {
+        Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+        return View["cuisine_delete.cshtml", SelectedCuisine];
+      };
+      Delete["cuisine/delete/{id}"] = parameters => {
+        Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+        SelectedCuisine.Delete();
+        return View["success.cshtml"];
+      };
+      Get["restaurant/delete/{id}"] = parameters => {
+        Restaurant SelectedRestaurant = Restaurant.Find(parameters.id);
+        return View["restaurant_delete.cshtml", SelectedRestaurant];
+      };
+      Delete["restaurant/delete/{id}"] = parameters => {
+        Restaurant SelectedRestaurant = Restaurant.Find(parameters.id);
+        SelectedRestaurant.Delete();
+        return View["success.cshtml"];
+      };
     }
   }
 }
