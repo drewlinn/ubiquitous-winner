@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 
 namespace Restaurants
 {
+  [Collection("Restaurants")]
   public class RestaurantTest : IDisposable
   {
     public RestaurantTest()
@@ -53,10 +54,28 @@ namespace Restaurants
 
     }
 
+    [Fact]
+    public void Test_Update_UpdatesRestaurantInDatabase()
+    {
+      //Arrange
+      string style = "Cafe, baby";
+      string name = "Baby Cafe";
+      Restaurant testaurant = new Restaurant(name, style, 1);
+      testaurant.Save();
+      string newStyle = "Fine Dining";
+      string newName = "Dine Fining";
+      //Act
+      testaurant.Update("Fine Dining", "Dine Fining");
+      string result = testaurant.GetStyle();
+
+      //Assert
+      Assert.Equal(newStyle, result);
+    }
+
     public void Dispose()
     {
       Restaurant.DeleteAll();
-      
+      Cuisine.DeleteAll();
     }
   }
 }

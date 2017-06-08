@@ -1,0 +1,11 @@
+<h1>Edit Cuisine</h1>
+<hr />
+<h2>Edit Cuisine: @Model.GetMenu()</h2>
+<form action="/cuisine/edit/@Model.GetId()" method="post">
+  <input type="hidden" name="_method" value="PATCH">
+  <input name="cuisine-id" type="hidden" value="@Model.GetId()">
+  <label for="cuisine-menu">Cuisine Menu</label>
+  <input id="cuisine-menu" name="cuisine-menu" type="text">
+  <button type="submit">Submit</button>
+</form>
+<h4><a href="/">Return home</a></h4>

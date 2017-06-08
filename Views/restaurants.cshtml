@@ -6,13 +6,11 @@
 @foreach(var restaurant in Model)
 {
   <ul>
-    <li>@restaurant.GetName()</li>
-    <ul>
-      <li>@Model.GetStyle()</li>
-      <li>@Model.GetCuisineId()</li>
-    </ul>
-
+    <li><a href="/restaurants/@restaurant.GetId()">@restaurant.GetName()</li>
   </ul>
 }
 <p><a href="/restaurant/new">Add a new Restaurant</a></p>
+<form action="/restaurants/cleared" method="post">
+    <button type="submit">Clear all restaurants</button>
+</form>
 <p><a href="/">Return Home</a></p>

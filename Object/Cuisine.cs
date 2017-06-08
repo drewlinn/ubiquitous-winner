@@ -189,6 +189,36 @@ namespace Restaurants
       return Restaurants;
     }
 
+    public void Update(string newMenu)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE cuisine SET menu = @newMenu OUTPUT INSERTED.menu WHERE id = @cuisineId;", conn);
+
+      SqlParameter newMenuPara = new SqlParameter("@newMenu", newMenu);
+      cmd.Parameters.Add(newMenuPara);
+
+      SqlParameter cuisineIdPara = new SqlParameter("@cuisineId", this.GetId());
+      cmd.Parameters.Add(cuisineIdPara);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._menu = rdr.GetString(0);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
 
   }
 }

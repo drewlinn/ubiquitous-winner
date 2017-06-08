@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 
 namespace Restaurants
 {
+  [Collection("Restaurants")]
   public class CuisineTest : IDisposable
   {
     public CuisineTest()
@@ -68,13 +69,28 @@ namespace Restaurants
 
       //Assert
       Assert.Equal(testRestaurantList, resultRestaurantList);
-
-
     }
+
+    // [Fact]
+    // public void Test_Update_UpdatesCuisineInDatabase()
+    // {
+    //   //Arrange
+    //   string menu = "burger";
+    //   Cuisine testCuisine = new Cuisine("italian", menu);
+    //   testCuisine.Save();
+    //   string newMenu = "salad";
+    //
+    //   //Act
+    //   testCuisine.Update("salad");
+    //   string result = testCuisine.GetMenu();
+    //
+    //   //Assert
+    //   Assert.Equal(newMenu, result);
+    // }
 
     public void Dispose()
     {
-      
+      Restaurant.DeleteAll();
       Cuisine.DeleteAll();
     }
 

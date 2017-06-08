@@ -148,7 +148,6 @@ namespace Restaurants
 
     public static Restaurant Find(int id)
     {
-      Console.WriteLine(id + " from Find Restaurant Line 150");
       SqlConnection conn = DB.Connection();
       conn.Open();
 
@@ -170,7 +169,6 @@ namespace Restaurants
         cuisine_id = rdr.GetInt32(3);
       }
       Restaurant foundRestaurant = new Restaurant(name, style, cuisine_id, foundId);
-      Console.WriteLine(foundRestaurant.GetName() + " From Find Res Line 172");
       if (rdr != null)
       {
         rdr.Close();
@@ -180,6 +178,45 @@ namespace Restaurants
         conn.Close();
       }
       return foundRestaurant;
+    }
+
+    public void Update(string newName, string newStyle)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE restaurant SET name = (@newName, @newStyle) OUTPUT INSERTED.name, INSERTED.style WHERE id = @restaurantId;", conn);
+
+      // SqlCommand cmd2 = new SqlCommand("UPDATE restaurant SET style = @newStyle OUTPUT INSERTED.style WHERE id = @restaurantId;", conn);
+
+      SqlParameter newNamePara = new SqlParameter("@newName", newName);
+      SqlParameter newStylePara = new SqlParameter("@newStyle", newStyle);
+      SqlParameter restaurantIdPara = new SqlParameter("@restaurantId", this.GetId());
+
+      cmd.Parameters.Add(newNamePara);
+      cmd.Parameters.Add(newStylePara);
+      cmd.Parameters.Add(restaurantIdPara);
+
+      // cmd2.Parameters.Add(newStylePara);
+      // cmd2.Parameters.Add(restaurantIdPara);
+
+      SqlDataReader rdr = cmd.ExecuteReader();
+      // SqlDataReader rdr2 = cmd2.ExecuteReader();
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+        this._style = rdr.GetString(1);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
     }
   }
 }
