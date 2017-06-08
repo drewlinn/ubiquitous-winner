@@ -27,9 +27,13 @@ namespace Restaurants
         return View["/add_cuisine.cshtml"];
       };
       Post["/restaurants"]= _ =>{
+        Dictionary<string, object> model = new Dictionary<string, object>();
         Restaurant newRestaurant = new Restaurant(Request.Form["restaurant"], Request.Form["style"], Request.Form["cuisine_id"]);
+        var selectedCuisine = Cuisine.Find(newRestaurant.GetCuisineId());
         newRestaurant.Save();
-        return View["restaurant_added.cshtml", newRestaurant];
+        model.Add("cuisine", selectedCuisine);
+        model.Add("restaurant", newRestaurant);
+        return View["restaurant_added.cshtml", model];
       };
       Post["/cuisines"]= _ =>{
         Cuisine newCuisine = new Cuisine(Request.Form["cuisine-type"], Request.Form["menu"]);
@@ -65,13 +69,19 @@ namespace Restaurants
         Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
         return View["cuisine_edit.cshtml", SelectedCuisine];
       };
-      // Post["/cuisine/edit/{id}"] = parameters => {
-      //   Cuisine SelectedCuisine =
-      // };
-
+      Patch["/cuisine/edit/{id}"] = parameters =>{
+        Cuisine SelectedCuisine = Cuisine.Find(parameters.id);
+        SelectedCuisine.Update(Request.Form["cuisine-menu"]);
+        return View["success.cshtml"];
+      };
       Get["/restaurant/edit/{id}"] = parameters => {
         Restaurant selectedRestaurant = Restaurant.Find(parameters.id);
         return View["restaurant_edit.cshtml", selectedRestaurant];
+      };
+      Patch["/restaurant/edit/{id}"] = parameters =>{
+        Restaurant SelectedRestaurant = Restaurant.Find(parameters.id);
+        SelectedRestaurant.Update(Request.Form["restaurant-name"], Request.Form["restaurant-style"]);
+        return View["success.cshtml"];
       };
     }
   }

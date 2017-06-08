@@ -1,6 +1,6 @@
 <h1>Edit Restaurant</h1>
 <hr />
-<h2>Edit Restaurant: @Model.GetMenu()</h2>
+<h2>Edit Restaurant: @Model.GetName()</h2>
 <form action="/restaurant/edit/@Model.GetId()" method="post">
   <input type="hidden" name="_method" value="PATCH">
   <input name="restaurant-id" type="hidden" value="@Model.GetId()">

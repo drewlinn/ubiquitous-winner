@@ -2,11 +2,11 @@
 
 #### A program that allows users to create restaurants 6/7/17
 
-#### By **Andrew Dalton and Kimlan Nguyen**
+#### By **Kimlan Nguyen and Andrew Dalton**
 
 ## Description
 
-A website created with C# and HTML where a user can enter animals into a shelter database, and remove them from the database once they've been rehomed.
+A website created with C# and HTML where a user can create a list of restaurants and the type of cuisine that they offer.
 
 
 ### Specs
@@ -48,4 +48,4 @@ _Email no one with any questions, comments, or concerns._
 
 *{This software is licensed under the MIT license}*
 
-Copyright (c) 2017 **_{Marilyn Carlin, Kimlan Nguyen}_**
+Copyright (c) 2017 **_{Kimlan Nguyen and Andrew Dalton}_**

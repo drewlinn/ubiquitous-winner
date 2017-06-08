@@ -1,7 +1,8 @@
-<h3>@Model["cuisine"].GetName()</h3>
+<h2>@Model["cuisine"].GetName(). </h2>
+<h4>Menu: @Model["cuisine"].GetMenu()</h4>
 @if(@Model["restaurants"].Count == 0)
 {
-  <p>There is no restaurants</p>
+  <p>There are no restaurants</p>
 }
 else
 {

@@ -6,7 +6,7 @@
 @foreach(var restaurant in Model)
 {
   <ul>
-    <li><a href="/restaurants/@restaurant.GetId()">@restaurant.GetName()</li>
+    <li><a href="/restaurants/@restaurant.GetId()">@restaurant.GetName()</a> | <a href="/restaurant/edit/@restaurant.GetId()">Edit</a></li>
   </ul>
 }
 <p><a href="/restaurant/new">Add a new Restaurant</a></p>
